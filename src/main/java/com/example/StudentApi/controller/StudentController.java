@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -36,5 +37,9 @@ public class StudentController {
     public String delete(@PathVariable String rollNo){
         service.deleteStudent(rollNo);
         return "Deleted Successfully";
+    }
+    @GetMapping("/analytics")
+    public Map<String, Object> getAnalytics() {
+        return service.getAnalytics();
     }
 }

@@ -6,7 +6,9 @@ import com.example.StudentApi.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -50,4 +52,17 @@ public class StudentServiceImpl implements StudentService {
         repo.deleteById(rollNo);
     }
 
+    @Override
+    public Map<String,Object> getAnalytics(){
+        List<Student> students = repo.findAll();
+
+        int totalStudents = students.size();
+        double averageAge = totalStudents > 0
+                ? students.stream().mapToInt(Student::getAge).average().orElse(0.0):0.0;
+
+        Map<String, Object> analytics = new HashMap<>();
+        analytics.put("totalStudents", totalStudents);
+        analytics.put("averageAge", averageAge);
+        return analytics;
+    }
 }
